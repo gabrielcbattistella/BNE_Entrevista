@@ -21,12 +21,13 @@ namespace Services.Services
             _userRepository = userRepository;
         }
 
-        public Task<bool> Delete(Guid id)
+        public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            var userDeleted = _userRepository.DeleteUser(id);
+            return userDeleted;
         }
 
-        public User Get(Guid id)
+        public User Get(int id)
         {
             var user = _userRepository.GetUser(id);
             return user;
@@ -40,15 +41,13 @@ namespace Services.Services
 
         public User Post(CreateUserDTO createUserDTO)
         {
-            User user = new()
+            User user = new User
             {
-                Id = Guid.NewGuid(),
                 Name = createUserDTO.Name,
                 Address = createUserDTO.Address,
                 Email = createUserDTO.Email,
                 Gender = createUserDTO.Gender,
                 Phone = createUserDTO.Phone,
-                CreatedDate = DateTimeOffset.UtcNow
             };
 
             User userCreated = _userRepository.CreateUser(user);
@@ -56,8 +55,18 @@ namespace Services.Services
             return userCreated;
         }
 
-        public User Update(User user)
+        public User Update(UpdateUserDTO userDTO, int id)
         {
+            User user = new User
+            {
+                Id = id,
+                Name = userDTO.Name,
+                Address = userDTO.Address,
+                Email = userDTO.Email,
+                Gender = userDTO.Gender,
+                Phone = userDTO.Phone,
+            };
+
             User updatedUser = _userRepository.UpdateUser(user);
             return updatedUser;
         }

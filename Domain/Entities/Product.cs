@@ -5,21 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.DTO.Users
+namespace Domain.Entities
 {
-    public record UserDTO
+    public record Product
     {
         [Required]
         public int Id { get; init; }
         [Required]
         public string Name { get; init; }
         [Required]
-        public string Email { get; init; }
+        public decimal Price { get; init; }
         [Required]
-        public string Phone { get; init; }
-        [Required]
-        public string Address { get; init; }
-        [Required]
-        public string Gender { get; init; }
+        public int Stock { get; init; }
     }
 }

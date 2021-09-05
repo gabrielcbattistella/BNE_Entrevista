@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.DTO.Users
 {
-    public record CreateUserDTO
+    public record UpdateUserDTO
     {
         [Required]
         [RegularExpression(@"^.{5,}$", ErrorMessage = "Deve ter no mínimo 5 caracteres")]

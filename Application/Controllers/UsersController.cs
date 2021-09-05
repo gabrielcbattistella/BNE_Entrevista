@@ -29,7 +29,7 @@ namespace Application.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<UserDTO> GetUser(Guid id)
+        public ActionResult<UserDTO> GetUser(int id)
         {
             var user = _userService.Get(id);
 
@@ -49,6 +49,30 @@ namespace Application.Controllers
                 return NotFound();
 
             return CreatedAtAction(nameof(GetUser), new { id = createdUser.Id }, createdUser.AsDTO());
+        }
+
+
+        [HttpPut("{id}")]
+        public ActionResult<UserDTO> UpdateUser(UpdateUserDTO user, int id)
+        {
+            var updatedUser = _userService.Update(user, id);
+
+            if (updatedUser is null)
+                return NotFound();
+
+            return Ok(updatedUser.AsDTO());
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult<bool> DeleteUser(int id)
+        {
+            bool user = _userService.Delete(id);
+
+            if (user is false)
+            {
+                return NotFound();
+            }
+            return user;
         }
     }
 }

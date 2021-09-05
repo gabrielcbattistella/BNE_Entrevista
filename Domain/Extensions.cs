@@ -1,4 +1,5 @@
-﻿using Domain.DTO.Users;
+﻿using Domain.DTO.Product;
+using Domain.DTO.Users;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,16 @@ namespace Domain
                 Phone = user.Phone,
                 Address = user.Address,
                 Gender = user.Gender,
-                CreatedDate = user.CreatedDate
+            };
+        }
+        public static ProductDTO AsDTO(this Product product)
+        {
+            return new ProductDTO
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                Stock = product.Stock,
             };
         }
     }

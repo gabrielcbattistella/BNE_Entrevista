@@ -10,10 +10,10 @@ namespace Domain.Interfaces.Services
 {
     public interface IUserService
     {
-        User Get(Guid id);
+        User Get(int id);
         IEnumerable<UserDTO> GetAll();
         User Post(CreateUserDTO createUserDTO);
-        User Update(User user);
-        Task<bool> Delete(Guid id);
+        User Update(UpdateUserDTO user, int id);
+        bool Delete(int id);
     }
 }

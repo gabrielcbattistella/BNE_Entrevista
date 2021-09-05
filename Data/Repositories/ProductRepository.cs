@@ -10,73 +10,61 @@ using System.Threading.Tasks;
 
 namespace Data.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class ProductRepository : IProductRepository
     {
         SQLiteConnection conn = DataConnection.CreateConnection();
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<Product> GetProducts()
         {
-            List<User> users = new List<User>{ };
+            List<Product> products = new List<Product> { };
 
             SQLiteDataReader sqliteReader;
             SQLiteCommand sqliteCommand;
             sqliteCommand = conn.CreateCommand();
-            sqliteCommand.CommandText = "SELECT * FROM Users";
+            sqliteCommand.CommandText = "SELECT * FROM Products";
             sqliteReader = sqliteCommand.ExecuteReader();
             while (sqliteReader.Read())
             {
-                users.Add(new User
+                products.Add(new Product
                 {
                     Id = Convert.ToInt32(sqliteReader["id"]),
                     Name = sqliteReader["name"].ToString(),
-                    Address = sqliteReader["address"].ToString(),
-                    Email = sqliteReader["email"].ToString(),
-                    Gender = sqliteReader["gender"].ToString(),
-                    Phone = sqliteReader["phone"].ToString(),
+                    Price = Convert.ToDecimal(sqliteReader["price"]),
+                    Stock = Convert.ToInt32(sqliteReader["stock"])
                 });
             };
             conn.Close();
-            return users;
+            return products;
         }
 
-        public User GetUser(int id)
+        public Product GetProduct(int id)
         {
-            User user = new User { };
+            Product product = new Product { };
             SQLiteDataReader sqliteReader;
             SQLiteCommand sqliteCommand;
             sqliteCommand = conn.CreateCommand();
-            sqliteCommand.CommandText = $"SELECT * FROM Users WHERE Id = {id};";
+            sqliteCommand.CommandText = $"SELECT * FROM Products WHERE Id = {id};";
             sqliteReader = sqliteCommand.ExecuteReader();
             while (sqliteReader.Read())
             {
-                user = user with
+                product = product with
                 {
                     Id = Convert.ToInt32(sqliteReader["id"]),
                     Name = sqliteReader["name"].ToString(),
-                    Address = sqliteReader["address"].ToString(),
-                    Email = sqliteReader["email"].ToString(),
-                    Gender = sqliteReader["gender"].ToString(),
-                    Phone = sqliteReader["phone"].ToString(),
+                    Price = Convert.ToDecimal(sqliteReader["price"]),
+                    Stock = Convert.ToInt32(sqliteReader["stock"])
                 };
             };
             conn.Close();
-            return user;
+            return product;
         }
 
-        public User CreateUser(User user)
+        public Product CreateProduct(Product product)
         {
             SQLiteDataReader sqliteReader;
             SQLiteCommand sqliteCommand;
             sqliteCommand = conn.CreateCommand();
-            sqliteCommand.CommandText = $"SELECT * FROM Users WHERE email = '{user.Email}';";
-            sqliteReader = sqliteCommand.ExecuteReader();
-            while (sqliteReader.Read())
-            {
-                conn.Close();
-                return null;
-            };
-            sqliteReader.Close();
-            sqliteCommand.CommandText = $"INSERT INTO Users(name, email, phone, address, gender) VALUES ('{user.Name}', '{user.Email}', '{user.Phone}', '{user.Address}', '{user.Gender}') ;";
-            if(sqliteCommand.ExecuteNonQuery() == 0)
+            sqliteCommand.CommandText = $"INSERT INTO Products(name, price, stock) VALUES ('{product.Name}', '{product.Price}', {product.Stock});";
+            if (sqliteCommand.ExecuteNonQuery() == 0)
             {
                 conn.Close();
                 return null;
@@ -86,35 +74,35 @@ namespace Data.Repositories
             sqliteReader = sqliteCommand.ExecuteReader();
             while (sqliteReader.Read())
             {
-                user = user with
+                product = product with
                 {
                     Id = Convert.ToInt32(sqliteReader["id"])
                 };
             };
 
             conn.Close();
-            return user;
+            return product;
         }
 
-        public User UpdateUser(User user)
+        public Product UpdateProduct(Product product)
         {
             SQLiteCommand sqliteCommand;
             sqliteCommand = conn.CreateCommand();
-            sqliteCommand.CommandText = $"UPDATE Users SET name = '{user.Name}', email = '{user.Email}', phone = '{user.Phone}', address = '{user.Address}', gender = '{user.Gender}' WHERE id = '{user.Id}' ;";
+            sqliteCommand.CommandText = $"UPDATE Products SET name = '{product.Name}', price = '{product.Price}', stock = {product.Stock} WHERE id = '{product.Id}' ;";
             if (sqliteCommand.ExecuteNonQuery() == 0)
             {
                 conn.Close();
                 return null;
             }
             conn.Close();
-            return user;
+            return product;
         }
 
-        public bool DeleteUser(int id)
+        public bool DeleteProduct(int id)
         {
             SQLiteCommand sqliteCommand;
             sqliteCommand = conn.CreateCommand();
-            sqliteCommand.CommandText = $"DELETE FROM Users WHERE id = {id};";
+            sqliteCommand.CommandText = $"DELETE FROM Products WHERE id = {id};";
             if (sqliteCommand.ExecuteNonQuery() == 0)
             {
                 conn.Close();

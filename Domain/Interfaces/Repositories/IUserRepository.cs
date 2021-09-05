@@ -9,9 +9,10 @@ namespace Domain.Interfaces.Repositories
 {
     public interface IUserRepository
     {
-        User GetUser(Guid id);
+        User GetUser(int id);
         IEnumerable<User> GetUsers();
         User CreateUser(User user);
         User UpdateUser(User user);
+        bool DeleteUser(int id);
     }
 }

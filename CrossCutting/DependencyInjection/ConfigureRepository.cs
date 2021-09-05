@@ -13,7 +13,8 @@ namespace CrossCutting.DependencyInjection
     {
         public static void ConfigureDependenciesRepository(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddSingleton<IUserRepository, UserRepository>();
+            serviceCollection.AddScoped<IUserRepository, UserRepository>();
+            serviceCollection.AddScoped<IProductRepository, ProductRepository>();
         }
     }
 }
