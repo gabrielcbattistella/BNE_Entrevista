@@ -5,17 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.DTO.Product
+namespace Domain.DTO.Sale
 {
-    public record ProductDTO
+    public record SaleDTO
     {
         [Required]
         public int Id { get; set; }
         [Required]
-        public string Name { get; init; }
+        public int ProductId { get; set; }
         [Required]
-        public decimal Price { get; init; }
+        public int UserId { get; set; }
         [Required]
-        public int Stock { get; init; }
+        public int Quantity { get; set; }
+        [Required]
+        public decimal Total { get; set; }
     }
 }

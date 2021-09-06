@@ -27,12 +27,17 @@ namespace Domain
         public static void CreateTable(SQLiteConnection conn)
         {
             SQLiteCommand sqliteCommand;
-            string createUserSQL = "CREATE TABLE IF NOT EXISTS Users(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT NOT NULL UNIQUE, phone TEXT NOT NULL, address TEXT NOT NULL, gender TEXT NOT NULL);";
+            string createUsersSQL = "CREATE TABLE IF NOT EXISTS Users(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT NOT NULL UNIQUE, phone TEXT NOT NULL, address TEXT NOT NULL, gender TEXT NOT NULL);";
             sqliteCommand = conn.CreateCommand();
-            sqliteCommand.CommandText = createUserSQL;
+            sqliteCommand.CommandText = createUsersSQL;
             sqliteCommand.ExecuteNonQuery();
-            string createProductSQL = "CREATE TABLE IF NOT EXISTS Products(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, price DECIMAL NOT NULL, stock INT NOT NULL);";
-            sqliteCommand.CommandText = createProductSQL;
+
+            string createProductsSQL = "CREATE TABLE IF NOT EXISTS Products(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, price DECIMAL NOT NULL, stock INT NOT NULL);";
+            sqliteCommand.CommandText = createProductsSQL;
+            sqliteCommand.ExecuteNonQuery();
+
+            string createSalesSQL = "CREATE TABLE IF NOT EXISTS Sales(id INTEGER PRIMARY KEY AUTOINCREMENT, id_product INTEGER REFERENCES Products(id), id_user INTEGER REFERENCES Users(id), quantity INTEGER NOT NULL, total DECIMAL NOT NULL);";
+            sqliteCommand.CommandText = createSalesSQL;
             sqliteCommand.ExecuteNonQuery();
             conn.Close();
         }

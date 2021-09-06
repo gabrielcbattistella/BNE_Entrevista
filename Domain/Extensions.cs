@@ -1,4 +1,5 @@
 ﻿using Domain.DTO.Product;
+using Domain.DTO.Sale;
 using Domain.DTO.Users;
 using Domain.Entities;
 using System;
@@ -31,6 +32,18 @@ namespace Domain
                 Name = product.Name,
                 Price = product.Price,
                 Stock = product.Stock,
+            };
+        }
+
+        public static SaleDTO AsDTO(this Sale sale)
+        {
+            return new SaleDTO
+            {
+                Id = sale.Id,
+                ProductId = sale.ProductId,
+                UserId = sale.UserId,
+                Quantity = sale.Quantity,
+                Total = sale.Total
             };
         }
     }
