@@ -14,8 +14,8 @@ namespace Domain.Entities
         [Required]
         public string Name { get; init; }
         [Required]
-        public decimal Price { get; init; }
+        public decimal? Price { get; init; }
         [Required]
-        public int Stock { get; init; }
+        public int? Stock { get; init; }
     }
 }

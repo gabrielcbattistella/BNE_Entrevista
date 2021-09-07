@@ -68,10 +68,6 @@ namespace Application.Controllers
         {
             bool user = _userService.Delete(id);
 
-            if (user is false)
-            {
-                return NotFound();
-            }
             return user;
         }
     }

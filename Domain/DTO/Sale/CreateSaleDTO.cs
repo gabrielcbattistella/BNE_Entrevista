@@ -14,7 +14,6 @@ namespace Domain.DTO.Sale
         [Required]
         public int UserId { get; set; }
         [Required]
-        [MinLength(1, ErrorMessage = "No mínimo 1 unidade do produto deve ser comprado")]
-        public int Quantity { get; set; }
+        public int? Quantity { get; set; }
     }
 }

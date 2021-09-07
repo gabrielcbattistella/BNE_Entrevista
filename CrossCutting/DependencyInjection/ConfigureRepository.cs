@@ -15,6 +15,7 @@ namespace CrossCutting.DependencyInjection
         {
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
             serviceCollection.AddScoped<IProductRepository, ProductRepository>();
+            serviceCollection.AddScoped<ISaleRepository, SaleRepository>();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Services.Services
 
         public bool Delete(int id)
         {
-            var productDeleted = _productRepository.DeleteProduct(id);
+            bool productDeleted = _productRepository.DeleteProduct(id);
             return productDeleted;
         }
 

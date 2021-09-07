@@ -62,9 +62,9 @@ namespace Data.Repositories
 
         public Sale CreateSale(Sale sale)
         {
-            int previousStock = 0;
-            decimal price = 0;
-            decimal total = 0;
+            int? previousStock = 0;
+            decimal? price = 0;
+            decimal? total = 0;
             SQLiteDataReader sqliteReader;
             SQLiteCommand sqliteCommand;
             sqliteCommand = conn.CreateCommand();
@@ -83,7 +83,9 @@ namespace Data.Repositories
             }
 
             total = price * sale.Quantity;
-            int newStock = previousStock - sale.Quantity;
+            int? newStock = previousStock - sale.Quantity;
+
+            sqliteReader.Close();
 
             sqliteCommand.CommandText = $"UPDATE Products SET stock = {newStock} WHERE id = '{sale.ProductId}' ;";
             if (sqliteCommand.ExecuteNonQuery() == 0)
@@ -105,7 +107,8 @@ namespace Data.Repositories
             {
                 sale = sale with
                 {
-                    Id = Convert.ToInt32(sqliteReader["id"])
+                    Id = Convert.ToInt32(sqliteReader["id"]),
+                    Total = total
                 };
             };
 
@@ -117,11 +120,10 @@ namespace Data.Repositories
         {
             int prevProduct = 0;
             int prevStock = 0;
-            int newStockUpdate = 0;
             int prevStockUpdate = 0;
             int prevUser = 0;
             int prevQuant = 0;
-            int newQuant = 0;
+            int? newQuant = 0;
             int originalQuant = 0;
             decimal price = 0;
             SQLiteCommand sqliteCommand;
@@ -142,6 +144,8 @@ namespace Data.Repositories
                 return null;
             }
 
+            sqliteReader.Close();
+
             sqliteCommand.CommandText = $"SELECT stock FROM Products WHERE id = {prevProduct}";
             sqliteReader = sqliteCommand.ExecuteReader();
             while (sqliteReader.Read())
@@ -149,7 +153,9 @@ namespace Data.Repositories
                 prevStock = Convert.ToInt32(sqliteReader["stock"]);
             }
 
-            originalQuant = (prevStock + prevQuant);
+            originalQuant = prevStock + prevQuant;
+
+            sqliteReader.Close();
 
             sqliteCommand.CommandText = $"UPDATE Products SET stock = {originalQuant} WHERE id = '{prevProduct}' ;";
             if (sqliteCommand.ExecuteNonQuery() == 0)
@@ -175,6 +181,8 @@ namespace Data.Repositories
                 return null;
             }
 
+            sqliteReader.Close();
+
             sqliteCommand.CommandText = $"UPDATE Products SET stock = {newQuant} WHERE id = '{sale.ProductId}' ;";
             if (sqliteCommand.ExecuteNonQuery() == 0)
             {
@@ -182,7 +190,7 @@ namespace Data.Repositories
                 return null;
             }
 
-            decimal total = sale.Quantity * price;
+            decimal? total = sale.Quantity * price;
 
             sqliteCommand.CommandText = $"UPDATE Sales SET id_product = {sale.ProductId}, id_user = {sale.UserId}, quantity = {sale.Quantity}, total = '{total}' WHERE id = '{sale.Id}' ;";
             if (sqliteCommand.ExecuteNonQuery() == 0)
@@ -192,6 +200,12 @@ namespace Data.Repositories
             }
 
             conn.Close();
+
+            sale = sale with
+            {
+                Total = total
+            };
+
             return sale;
         }
 
@@ -220,6 +234,8 @@ namespace Data.Repositories
                 return false;
             }
 
+            sqliteReader.Close();
+
             sqliteCommand.CommandText = $"SELECT stock FROM Products WHERE id = {prevProd}";
             sqliteReader = sqliteCommand.ExecuteReader();
             while (sqliteReader.Read())
@@ -228,6 +244,8 @@ namespace Data.Repositories
             }
 
             newStock = prevStock + prevQuan;
+
+            sqliteReader.Close();
 
             sqliteCommand.CommandText = $"UPDATE Products SET stock = {newStock} WHERE id = {prevProd};";
             if (sqliteCommand.ExecuteNonQuery() == 0)

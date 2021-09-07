@@ -14,6 +14,6 @@ namespace Domain.DTO.Sale
         [Required]
         public int UserId { get; set; }
         [Required]
-        public int Quantity { get; set; }
+        public int? Quantity { get; set; }
     }
 }

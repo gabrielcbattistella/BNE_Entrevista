@@ -67,10 +67,6 @@ namespace Application.Controllers
         {
             bool product = _productService.Delete(id);
 
-            if (product is false)
-            {
-                return NotFound();
-            }
             return product;
         }
     }

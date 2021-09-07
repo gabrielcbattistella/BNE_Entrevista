@@ -15,6 +15,7 @@ namespace CrossCutting.DependencyInjection
         {
             serviceCollection.AddScoped<IUserService, UserService>();
             serviceCollection.AddScoped<IProductService, ProductService>();
+            serviceCollection.AddScoped<ISaleService, SaleService>();
         }
     }
 }

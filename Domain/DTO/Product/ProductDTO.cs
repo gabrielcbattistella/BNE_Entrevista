@@ -14,8 +14,10 @@ namespace Domain.DTO.Product
         [Required]
         public string Name { get; init; }
         [Required]
-        public decimal Price { get; init; }
+        [Range(0, double.MaxValue, ErrorMessage = "Por favor insira um valor acima de {1}")]
+        public decimal? Price { get; init; }
         [Required]
-        public int Stock { get; init; }
+        [Range(1, int.MaxValue, ErrorMessage = "Por favor insira um valor acima de {1}")]
+        public int? Stock { get; init; }
     }
 }
