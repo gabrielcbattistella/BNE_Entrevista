@@ -71,6 +71,7 @@ namespace Data.Repositories
             sqliteReader = sqliteCommand.ExecuteReader();
             while (sqliteReader.Read())
             {
+                sqliteReader.Close();
                 conn.Close();
                 return null;
             };

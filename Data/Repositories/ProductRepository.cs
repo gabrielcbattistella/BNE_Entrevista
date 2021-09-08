@@ -28,7 +28,7 @@ namespace Data.Repositories
                 {
                     Id = Convert.ToInt32(sqliteReader["id"]),
                     Name = sqliteReader["name"].ToString(),
-                    Price = Convert.ToDecimal(sqliteReader["price"]),
+                    Price = Math.Truncate(Convert.ToDecimal(sqliteReader["price"])),
                     Stock = Convert.ToInt32(sqliteReader["stock"])
                 });
             };
